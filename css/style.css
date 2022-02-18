@@ -8,7 +8,7 @@
   font-style: normal;
   font-display: swap;
 }
-
+/* шрифты */
 @font-face {
   font-family: "Roboto";
   src: url("../fonts/Roboto-Regular.woff2") format("woff2");
