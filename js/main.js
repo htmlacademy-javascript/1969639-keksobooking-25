@@ -52,11 +52,13 @@ const coord= {
 const  getRandomArrayElement = (elements) =>
   elements [getRandomPositiveInteger(0,elements.length - 1)];
 
-function generateAutor(number) {
-  return {
-    avatar: `img/avatars/user0${number}.png`
-  };
+function generateAutor(number = getRandomPositiveInteger(0,10) ) {
+  if (number < 10) {
+    return {avatar: `img/avatars/user0${number}.png`};
+  }
+  return {avatar: `img/avatars/user0${number}.png`};
 }
+
 
 function createOffer() {
   return {
