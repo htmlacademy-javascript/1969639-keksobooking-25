@@ -52,17 +52,17 @@ const coord= {
 const  getRandomArrayElement = (elements) =>
   elements [getRandomPositiveInteger(0,elements.length - 1)];
 
-function generateAutor(number = getRandomPositiveInteger(0,10) ) {
+function generateAutor(number) {
   if (number < 10) {
     return {avatar: `img/avatars/user0${number}.png`};
   }
-  return {avatar: `img/avatars/user0${number}.png`};
+  return {avatar: `img/avatars/user${number}.png`};
 }
 
 
-function createOffer() {
+function createOffer(number) {
   return {
-    autor: generateAutor(),
+    autor: generateAutor(number),
     title: 'Объявление',
     adress: `${coord.lat},${coord.lng}`,
     price: getRandomPositiveInteger(10000, 2000000),
