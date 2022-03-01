@@ -52,25 +52,27 @@ const coord= {
 const  getRandomArrayElement = (elements) =>
   elements [getRandomPositiveInteger(0,elements.length - 1)];
 
-const generateAutor = (number) => {
-  return {avatar: `img/avatars/user${number}.png`};
-};
+function generateAutor(number) {
+  return {
+    avatar: `img/avatars/user0${number}.png`
+  };
+}
 
-const createOffer = (number) => {
+function createOffer() {
   return {
     autor: generateAutor(),
     title: 'Объявление',
     adress: `${coord.lat},${coord.lng}`,
-    price:  getRandomPositiveInteger(10000,2000000),
+    price: getRandomPositiveInteger(10000, 2000000),
     type: getRandomArrayElement(TYPE),
-    rooms: getRandomPositiveInteger(1,5),
+    rooms: getRandomPositiveInteger(1, 5),
     checkin: getRandomArrayElement(CHECKIN),
     checkout: getRandomArrayElement(CHECKIN),
-    features: () => Array.from({length:getRandomPositiveInteger(0,FEATURES.length - 1) },FEATURES),
+    features: () => Array.from({ length: getRandomPositiveInteger(0, FEATURES.length - 1) }, FEATURES),
     description: 'Аппартаменты',
-    photos:  () => Array.from({length:getRandomPositiveInteger(0,PHOTOS.length - 1) },PHOTOS),
+    photos: () => Array.from({ length: getRandomPositiveInteger(0, PHOTOS.length - 1) }, PHOTOS),
   };
-};
+}
 
 
 const offers = [];
