@@ -59,7 +59,6 @@ function generateAutor(number) {
   return {avatar: `img/avatars/user${number}.png`};
 }
 
-// eslint-disable-next-line no-unused-vars
 function getNewArray (arrays) {
   const newArray = [];
   for (let i=0; i <= getRandomPositiveInteger(0,arrays.length-1); i++) {
