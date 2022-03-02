@@ -59,6 +59,14 @@ function generateAutor(number) {
   return {avatar: `img/avatars/user${number}.png`};
 }
 
+// eslint-disable-next-line no-unused-vars
+function getNewArray (arrays) {
+  const newArray = [];
+  for (let i=0; i <= getRandomPositiveInteger(0,arrays.length-1); i++) {
+    newArray[i] = arrays[i];
+  }
+  return newArray;
+}
 
 function createOffer(number) {
   return {
@@ -70,9 +78,9 @@ function createOffer(number) {
     rooms: getRandomPositiveInteger(1, 5),
     checkin: getRandomArrayElement(CHECKIN),
     checkout: getRandomArrayElement(CHECKIN),
-    features: () => Array.from({ length: getRandomPositiveInteger(0, FEATURES.length - 1) }, FEATURES),
+    features: getNewArray (FEATURES),
     description: 'Аппартаменты',
-    photos: () => Array.from({ length: getRandomPositiveInteger(0, PHOTOS.length - 1) }, PHOTOS),
+    photos: getNewArray(PHOTOS),
   };
 }
 
