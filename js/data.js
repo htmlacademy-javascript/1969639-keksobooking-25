@@ -2,7 +2,6 @@ import {getRandomPositiveInteger, getRandomPositiveFloat} from './util.js';
 
 const SIMILAR_OFFER = 10;
 
-
 const TYPE = [
   'palace',
   'flat',
@@ -70,7 +69,6 @@ function createOffer(number) {
     photos: getNewArray(PHOTOS),
   };
 }
-
 
 const offers = [];
 for (let i=1; i<=SIMILAR_OFFER; i++) {
