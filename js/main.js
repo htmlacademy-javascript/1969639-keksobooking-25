@@ -1,2 +1,2 @@
-import './data.js';
+import {offers} from './data.js';
 
