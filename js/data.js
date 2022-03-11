@@ -62,6 +62,7 @@ function createOffer(number) {
     price: getRandomPositiveInteger(10000, 2000000),
     type: getRandomArrayElement(TYPE),
     rooms: getRandomPositiveInteger(1, 5),
+    guests: getRandomPositiveInteger(1, 5),
     checkin: getRandomArrayElement(CHECKIN),
     checkout: getRandomArrayElement(CHECKIN),
     features: getNewArray (FEATURES),
