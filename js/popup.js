@@ -43,12 +43,23 @@ similarCards.forEach((offer) => {
     }
   });
 
-  featuresAll.inntrHTML = '';
+  featuresAll.innerHTML = '';
   featuresAll.append(featuresFragment);
 
   cardElement.querySelector('.popup__description').textContent = offer.description;
-  const photos = cardElement.querySelector('.popup__photos');
-  offer.photos.forEach((photoItem) => {photos.querySelector('.popup__photo').src = photoItem; });
+  const photosAll = cardElement.querySelector('.popup__photos');
+  photosAll.innerHTML = '';
+
+  offer.photos.forEach((photoItem) => {
+    const photoImage = document.createElement('img');
+    photoImage.classList.add('.popup__photo');
+    photoImage.src = photoItem;
+    photoImage.width = '45';
+    photoImage.height = '40';
+    photosAll.append(photoImage);
+  });
+
+
   cardElement.querySelector('.popup__avatar').scr = offer.autor;
 
   similarListFragment.appendChild(cardElement);
