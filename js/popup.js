@@ -23,51 +23,47 @@ function getType (type) {
 
 const similarCards = offers.slice();
 
-similarCards.forEach((offer) => {
-  const cardElement = similarCardTemplate.cloneNode(true);
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  cardElement.querySelector('.popup__text--price').textContent = `${offer.price}Р/ночь`;
-  cardElement.querySelector('.popup__type').textContent = getType(offer.type);
-  cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
 
-  const featuresAll = cardElement.querySelector('.popup__features');
-  const featuresFragment = document.createDocumentFragment();
+const cardElement = similarCardTemplate.cloneNode(true);
+cardElement.querySelector('.popup__title').textContent = similarCards[0].title;
+cardElement.querySelector('.popup__text--address').textContent = similarCards[0].address;
+cardElement.querySelector('.popup__text--price').textContent = `${similarCards[0].price}Р/ночь`;
+cardElement.querySelector('.popup__type').textContent = getType(similarCards[0].type);
+cardElement.querySelector('.popup__text--capacity').textContent = `${similarCards[0].rooms} комнаты для ${similarCards[0].guests} гостей`;
+cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${similarCards[0].checkin}, выезд до ${similarCards[0].checkout}`;
 
-  offer.features.forEach((featur) => {
-    const featurListItem = featuresAll.querySelector(`.popup__feature--${featur}`);
+const featuresAll = cardElement.querySelector('.popup__features');
+const featuresFragment = document.createDocumentFragment();
 
-    if (featurListItem) {
-      featuresFragment.append(featurListItem);
-    }
-  });
+similarCards[0].features.forEach((featur) => {
+  const featurListItem = featuresAll.querySelector(`.popup__feature--${featur}`);
 
-  featuresAll.innerHTML = '';
-  featuresAll.append(featuresFragment);
-
-  cardElement.querySelector('.popup__description').textContent = offer.description;
-  const photosAll = cardElement.querySelector('.popup__photos');
-  photosAll.innerHTML = '';
-
-  offer.photos.forEach((photoItem) => {
-    const photoImage = document.createElement('img');
-    photoImage.classList.add('.popup__photo');
-    photoImage.src = photoItem;
-    photoImage.width = '45';
-    photoImage.height = '40';
-    photosAll.append(photoImage);
-  });
-
-
-  cardElement.querySelector('.popup__avatar').scr = offer.autor;
-
-  similarListFragment.appendChild(cardElement);
-
+  if (featurListItem) {
+    featuresFragment.append(featurListItem);
+  }
 });
 
-similarListElement.innerHTML = '';
-similarListElement.appendChild(similarListFragment.children[0]);
+featuresAll.innerHTML = '';
+featuresAll.append(featuresFragment);
 
+cardElement.querySelector('.popup__description').textContent = similarCards[0].description;
+const photosAll = cardElement.querySelector('.popup__photos');
+photosAll.innerHTML = '';
+
+similarCards[0].photos.forEach((photoItem) => {
+  const photoImage = document.createElement('img');
+  photoImage.classList.add('.popup__photo');
+  photoImage.src = photoItem;
+  photoImage.width = '45';
+  photoImage.height = '40';
+  photosAll.append(photoImage);
+});
+
+cardElement.querySelector('.popup__avatar').scr = similarCards[0].autor;
+
+similarListFragment.appendChild(cardElement);
+
+similarListElement.innerHTML = '';
+similarListElement.appendChild(similarListFragment);
 
 export {similarListElement};
