@@ -63,8 +63,11 @@ similarCards.forEach((offer) => {
   cardElement.querySelector('.popup__avatar').scr = offer.autor;
 
   similarListFragment.appendChild(cardElement);
-  similarListElement.innerHTML = '';
-  similarListElement.appendChild(similarListFragment);
+
 });
+
+similarListElement.innerHTML = '';
+similarListElement.appendChild(similarListFragment.children[0]);
+
 
 export {similarListElement};
