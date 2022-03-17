@@ -3,12 +3,12 @@ const orderForm = document.querySelector('.ad-form');
 const pristine = new Pristine (orderForm, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
-  errorTextClass: 'error__message'
+  errorTextTag: 'span',
+  errorTextClass: 'ad-form__element__error-text'
 }, false);
 
-function validateTitle (value) {
-  return value.length >= 30 && value.length <= 100;
-}
+const validateTitle = (value) => value.length >= 30 && value.length <= 100;
+
 pristine.addValidator(
   orderForm.querySelector('#title'),
   validateTitle,
@@ -17,9 +17,7 @@ pristine.addValidator(
 
 const nightPrice = orderForm.querySelector('#price');
 
-function validatePrice (value) {
-  return parseInt(value, 10) <= 100000;
-}
+const validatePrice = (value) => parseInt(value, 10) <= 100000;
 
 pristine.addValidator(nightPrice,
   validatePrice,
@@ -36,9 +34,7 @@ const roomsGuest = {
   '100':['0']
 };
 
-function validateRooms () {
-  return roomsGuest[numberRooms.value].includes(numberGuest.value);
-}
+const validateRooms = () => roomsGuest[numberRooms.value].includes(numberGuest.value);
 
 pristine.addValidator(numberRooms,validateRooms, 'количество комнат не соответветствует количеству гостей');
 pristine.addValidator(numberGuest,validateRooms, 'количество комнат не соответветствует количеству гостей');
