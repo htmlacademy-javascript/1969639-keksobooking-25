@@ -17,11 +17,11 @@ pristine.addValidator(
 
 const nightPrice = orderForm.querySelector('#price');
 
-const validatePrice = (value) => parseInt(value, 10) <= 100000;
+const validatePrice = (value) => parseInt(value, 10) >= 0 && parseInt(value, 10) <= 100000;
 
 pristine.addValidator(nightPrice,
   validatePrice,
-  'Максимальная цена за ночь 100 000 руб'
+  'Мин цена за ночь 0 руб, Макс цена за ночь 100 000 руб'
 );
 
 const numberRooms = orderForm.querySelector('#room_number');
