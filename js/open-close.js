@@ -11,13 +11,13 @@ userFormCardElements.forEach((userFormCardElement) => {userFormCardElement.setAt
 filterFormElements.forEach((filterFormElement) => {filterFormElement.setAttribute('disabled', true);});
 filterFormElementCheck.setAttribute('disabled', true);
 
-function openPage () {
+const openPage = () => {
   userFormCard.classList.remove('ad-form--disabled');
   filterForm.classList.remove('map__filters--disabled');
   userFormCardElements.forEach((userFormCardElement) => {userFormCardElement.removeAttribute('disabled');});
   filterFormElements.forEach((filterFormElement) => {filterFormElement.removeAttribute('disabled');});
   filterFormElementCheck.removeAttribute('disabled');
-}
+};
 
 openPage();
 
