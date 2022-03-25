@@ -5,7 +5,7 @@ const SIMILAR_OFFER = 10;
 const TYPE = [
   'palace',
   'flat',
-  'hous',
+  'house',
   'bungalow',
   'hotel'
 ];
@@ -31,10 +31,10 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const coord= {
-  lat: getRandomPositiveFloat(35.65000, 35.70000),
+const coord = () => ({
+  lat: getRandomPositiveFloat(35.65000, 35.70000) ,
   lng: getRandomPositiveFloat(139.70000, 139.80000)
-};
+});
 
 const  getRandomArrayElement = (elements) =>
   elements [getRandomPositiveInteger(0,elements.length - 1)];
@@ -56,13 +56,13 @@ function getNewArray (arrays) {
 
 function createOffer(number) {
   return {
-    autor: generateAutor(number),
+    author: generateAutor(number),
     title: 'Объявление',
-    adress: `${coord.lat},${coord.lng}`,
-    price: getRandomPositiveInteger(10000, 2000000),
+    address: coord(),
+    price: getRandomPositiveInteger(0, 100000),
     type: getRandomArrayElement(TYPE),
-    rooms: getRandomPositiveInteger(1, 5),
-    guests: getRandomPositiveInteger(1, 5),
+    rooms: getRandomPositiveInteger(1, 3),
+    guests: getRandomPositiveInteger(0, 2),
     checkin: getRandomArrayElement(CHECKIN),
     checkout: getRandomArrayElement(CHECKIN),
     features: getNewArray (FEATURES),
