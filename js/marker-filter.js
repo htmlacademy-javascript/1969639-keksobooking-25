@@ -1,3 +1,4 @@
+/*
 import {offers} from './data.js';
 import {markers,createMarker, markerGroup} from './map.js';
 
@@ -21,7 +22,7 @@ formMapFilter.addEventListener('change', () =>{
   });
 });
 */
-
+/*
 formMapFilter.addEventListener('change', () =>{
   markerGroup.clearLayers();
   offers.filter((offer) => {
