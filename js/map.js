@@ -2,14 +2,25 @@ import {closePage, openPage} from './open-close.js';
 import {offers} from './data.js';
 
 const adressForm = document.querySelector('#address');
+const mainIconSize = 52;
+const mainIconAnchorSize = 26;
+const iconSize = 40;
+const iconAnchorSize = 20;
+const latMarkerCentre = 35.6895;
+const lngMarkerCentre = 139.692;
+const latMapCentre = 35.6895;
+const lngMapCentre = 139.692;
+const commaNumber = 5;
+const photoImageWidth = 45;
+const photoImageHeight = 40;
 
 closePage();
 
 const map = L.map('map-canvas').on('load', () => {
   openPage();
 }).setView({
-  lat: 35.6895,
-  lng: 139.692,
+  lat: latMapCentre,
+  lng: lngMapCentre,
 }, 10);
 
 L.tileLayer(
@@ -21,12 +32,12 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [52,52],
-  iconAnchor:[26,52],
+  iconSize: [mainIconSize,mainIconSize],
+  iconAnchor: [mainIconAnchorSize,mainIconSize],
 });
 const mainMarker = L.marker({
-  lat: 35.6895,
-  lng: 139.692,
+  lat: latMarkerCentre,
+  lng: lngMarkerCentre,
 },{
   draggable: true,
   icon: mainPinIcon,
@@ -36,18 +47,18 @@ mainMarker.addTo(map);
 
 mainMarker.on('moveend', (evt) =>{
   const endMove = evt.target.getLatLng();
-  adressForm.value = `${endMove.lat.toFixed(5)},${endMove.lng.toFixed(5)}`;
+  adressForm.value = `${endMove.lat.toFixed(commaNumber)},${endMove.lng.toFixed(commaNumber)}`;
 });
 
 const pinIcon = L.marker({
   iconUrl: './img/pin.svg',
-  iconSize:[40,40],
-  iconAnchor:[20,40],
+  iconSize:[iconSize,iconSize],
+  iconAnchor:[iconAnchorSize,iconSize],
 });
 
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-function getType (type) {
+const getType = (type) => {
   switch (type) {
     case 'flat':
       return 'Квартира';
@@ -60,7 +71,7 @@ function getType (type) {
     case 'hotel' :
       return 'Отель';
   }
-}
+};
 
 const cardPopup = (offer) => {
   const cardElement = similarCardTemplate.cloneNode(true);
@@ -74,8 +85,8 @@ const cardPopup = (offer) => {
   const featuresAll = cardElement.querySelector('.popup__features');
   const featuresFragment = document.createDocumentFragment();
 
-  offer.features.forEach((featur) => {
-    const featurListItem = featuresAll.querySelector(`.popup__feature--${featur}`);
+  offer.features.forEach((feature) => {
+    const featurListItem = featuresAll.querySelector(`.popup__feature--${feature}`);
 
     if (featurListItem) {
       featuresFragment.append(featurListItem);
@@ -93,8 +104,8 @@ const cardPopup = (offer) => {
     const photoImage = document.createElement('img');
     photoImage.classList.add('.popup__photo');
     photoImage.src = photoItem;
-    photoImage.width = '45';
-    photoImage.height = '40';
+    photoImage.width = `${photoImageWidth}`;
+    photoImage.height = `${photoImageHeight}`;
     photosAll.append(photoImage);
   });
 
@@ -117,10 +128,10 @@ const createMarker = (offer) => {
 };
 
 
-const markers = () => offers.map((offer) => {createMarker(offer);
+const getMarkers = (arr) => arr.forEach((offer) => {createMarker(offer);
 });
 
-markers();
+getMarkers(offers);
 
-export {createMarker, markers, markerGroup};
+export {createMarker, getMarkers, markerGroup};
 
