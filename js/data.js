@@ -5,7 +5,7 @@ const SIMILAR_OFFER = 10;
 const TYPE = [
   'palace',
   'flat',
-  'hous',
+  'house',
   'bungalow',
   'hotel'
 ];
@@ -31,45 +31,43 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const coord= {
-  lat: getRandomPositiveFloat(35.65000, 35.70000),
+const getCoord = () => ({
+  lat: getRandomPositiveFloat(35.65000, 35.70000) ,
   lng: getRandomPositiveFloat(139.70000, 139.80000)
-};
+});
 
 const  getRandomArrayElement = (elements) =>
   elements [getRandomPositiveInteger(0,elements.length - 1)];
 
-function generateAutor(number) {
+const generateAutor = (number) => {
   if (number < 10) {
     return {avatar: `img/avatars/user0${number}.png`};
   }
   return {avatar: `img/avatars/user${number}.png`};
-}
+};
 
-function getNewArray (arrays) {
+const getNewArray = (arrays) => {
   const newArray = [];
   for (let i=0; i <= getRandomPositiveInteger(0,arrays.length-1); i++) {
     newArray[i] = arrays[i];
   }
   return newArray;
-}
+};
 
-function createOffer(number) {
-  return {
-    autor: generateAutor(number),
-    title: 'Объявление',
-    adress: `${coord.lat},${coord.lng}`,
-    price: getRandomPositiveInteger(10000, 2000000),
-    type: getRandomArrayElement(TYPE),
-    rooms: getRandomPositiveInteger(1, 5),
-    guests: getRandomPositiveInteger(1, 5),
-    checkin: getRandomArrayElement(CHECKIN),
-    checkout: getRandomArrayElement(CHECKIN),
-    features: getNewArray (FEATURES),
-    description: 'Аппартаменты',
-    photos: getNewArray(PHOTOS),
-  };
-}
+const createOffer = (number) => ({
+  author: generateAutor(number),
+  title: 'Объявление',
+  address: getCoord(),
+  price: getRandomPositiveInteger(0, 100000),
+  type: getRandomArrayElement(TYPE),
+  rooms: getRandomPositiveInteger(1, 3),
+  guests: getRandomPositiveInteger(0, 2),
+  checkin: getRandomArrayElement(CHECKIN),
+  checkout: getRandomArrayElement(CHECKIN),
+  features: getNewArray (FEATURES),
+  description: 'Аппартаменты',
+  photos: getNewArray(PHOTOS),
+});
 
 const offers = [];
 for (let i=1; i<=SIMILAR_OFFER; i++) {

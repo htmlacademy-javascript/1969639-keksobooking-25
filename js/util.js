@@ -5,7 +5,7 @@ function getRandomPositiveInteger (a, b) {
   return Math.floor(result);
 }
 
-function getRandomPositiveFloat (a, b, digits = 1) {
+function getRandomPositiveFloat (a, b, digits = 5) {
   const lower = Math.min(Math.abs(a), Math.abs(b));
   const upper = Math.max(Math.abs(a), Math.abs(b));
   const result = Math.random() * (upper - lower) + lower;
