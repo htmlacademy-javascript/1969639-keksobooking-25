@@ -2,26 +2,27 @@ import {closePage, openPage} from './open-close.js';
 import {offers} from './data.js';
 
 const adressForm = document.querySelector('#address');
-const mainIconSize = 52;
-const mainIconAnchorSize = 26;
-const iconSize = 40;
-const iconAnchorSize = 20;
-const latMarkerCentre = 35.6895;
-const lngMarkerCentre = 139.692;
-const latMapCentre = 35.6895;
-const lngMapCentre = 139.692;
-const commaNumber = 5;
-const photoImageWidth = 45;
-const photoImageHeight = 40;
+const MAIN_ICON_SIZE = 52;
+const MAIN_ICON_ANCHOR_SIZE = 26;
+const ICON_SIZE = 40;
+const ICON_ANCHOR_SIZE = 20;
+const LAT_MARKER = 35.6895;
+const LNG_MARKER = 139.692;
+const LAT_MAP_CENTRE= 35.6895;
+const LNG_MAP_CENTRE = 139.692;
+const COMMA_NUMBER = 5;
+const PHOTO_WIDTH = 45;
+const PHOTO_HEIGHT = 40;
+const ZOOM = 10;
 
 closePage();
 
 const map = L.map('map-canvas').on('load', () => {
   openPage();
 }).setView({
-  lat: latMapCentre,
-  lng: lngMapCentre,
-}, 10);
+  lat: LAT_MAP_CENTRE,
+  lng: LNG_MAP_CENTRE,
+}, ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -32,12 +33,12 @@ L.tileLayer(
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
-  iconSize: [mainIconSize,mainIconSize],
-  iconAnchor: [mainIconAnchorSize,mainIconSize],
+  iconSize: [MAIN_ICON_SIZE,MAIN_ICON_SIZE],
+  iconAnchor: [MAIN_ICON_ANCHOR_SIZE,MAIN_ICON_SIZE],
 });
 const mainMarker = L.marker({
-  lat: latMarkerCentre,
-  lng: lngMarkerCentre,
+  lat: LAT_MARKER,
+  lng: LNG_MARKER,
 },{
   draggable: true,
   icon: mainPinIcon,
@@ -47,13 +48,13 @@ mainMarker.addTo(map);
 
 mainMarker.on('moveend', (evt) =>{
   const endMove = evt.target.getLatLng();
-  adressForm.value = `${endMove.lat.toFixed(commaNumber)},${endMove.lng.toFixed(commaNumber)}`;
+  adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)},${endMove.lng.toFixed(COMMA_NUMBER)}`;
 });
 
 const pinIcon = L.marker({
   iconUrl: './img/pin.svg',
-  iconSize:[iconSize,iconSize],
-  iconAnchor:[iconAnchorSize,iconSize],
+  iconSize:[ICON_SIZE,ICON_SIZE],
+  iconAnchor:[ICON_ANCHOR_SIZE,ICON_SIZE],
 });
 
 const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
@@ -104,8 +105,8 @@ const cardPopup = (offer) => {
     const photoImage = document.createElement('img');
     photoImage.classList.add('.popup__photo');
     photoImage.src = photoItem;
-    photoImage.width = `${photoImageWidth}`;
-    photoImage.height = `${photoImageHeight}`;
+    photoImage.width = `${PHOTO_WIDTH}`;
+    photoImage.height = `${PHOTO_HEIGHT}`;
     photosAll.append(photoImage);
   });
 

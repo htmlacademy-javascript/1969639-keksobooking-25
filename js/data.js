@@ -39,37 +39,35 @@ const getCoord = () => ({
 const  getRandomArrayElement = (elements) =>
   elements [getRandomPositiveInteger(0,elements.length - 1)];
 
-function generateAutor(number) {
+const generateAutor = (number) => {
   if (number < 10) {
     return {avatar: `img/avatars/user0${number}.png`};
   }
   return {avatar: `img/avatars/user${number}.png`};
-}
+};
 
-function getNewArray (arrays) {
+const getNewArray = (arrays) => {
   const newArray = [];
   for (let i=0; i <= getRandomPositiveInteger(0,arrays.length-1); i++) {
     newArray[i] = arrays[i];
   }
   return newArray;
-}
+};
 
-function createOffer(number) {
-  return {
-    author: generateAutor(number),
-    title: 'Объявление',
-    address: getCoord(),
-    price: getRandomPositiveInteger(0, 100000),
-    type: getRandomArrayElement(TYPE),
-    rooms: getRandomPositiveInteger(1, 3),
-    guests: getRandomPositiveInteger(0, 2),
-    checkin: getRandomArrayElement(CHECKIN),
-    checkout: getRandomArrayElement(CHECKIN),
-    features: getNewArray (FEATURES),
-    description: 'Аппартаменты',
-    photos: getNewArray(PHOTOS),
-  };
-}
+const createOffer = (number) => ({
+  author: generateAutor(number),
+  title: 'Объявление',
+  address: getCoord(),
+  price: getRandomPositiveInteger(0, 100000),
+  type: getRandomArrayElement(TYPE),
+  rooms: getRandomPositiveInteger(1, 3),
+  guests: getRandomPositiveInteger(0, 2),
+  checkin: getRandomArrayElement(CHECKIN),
+  checkout: getRandomArrayElement(CHECKIN),
+  features: getNewArray (FEATURES),
+  description: 'Аппартаменты',
+  photos: getNewArray(PHOTOS),
+});
 
 const offers = [];
 for (let i=1; i<=SIMILAR_OFFER; i++) {
