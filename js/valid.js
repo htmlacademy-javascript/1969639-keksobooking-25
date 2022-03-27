@@ -39,7 +39,33 @@ const validateRooms = () => roomsGuest[numberRooms.value].includes(numberGuest.v
 pristine.addValidator(numberRooms,validateRooms, 'количество комнат не соответветствует количеству гостей');
 pristine.addValidator(numberGuest,validateRooms, 'количество комнат не соответветствует количеству гостей');
 
+const priceField = orderForm.querySelector('#price');
+const typeSelect = orderForm.querySelector('#type');
+
+const minPrice = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+
+const validatePriceField = (value) => {
+  typeSelect.addEventListener('change', () => parseInt(value, 10) >= minPrice[typeSelect.value]);
+};
+
+const getPriceFieldError = () =>`Цена не меньше ${minPrice[typeSelect.value]} руб за ночь`;
+
+pristine.addValidator(priceField, validatePriceField, getPriceFieldError);
+
 orderForm.addEventListener ('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
+});
+
+const timeIn = orderForm.querySelector('#timein');
+const timeOut = orderForm.querySelector('#timeout');
+
+timeIn.addEventListener('change', ()=> {
+  timeOut.value = timeIn.value;
 });
