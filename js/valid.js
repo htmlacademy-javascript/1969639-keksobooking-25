@@ -50,6 +50,11 @@ const minPrice = {
   'palace': 10000
 };
 
+typeSelect.addEventListener('change', (evt) => {
+  evt.preventDefault();
+  priceField.placeholder = `${minPrice[typeSelect.value]}`;
+});
+
 const validatePriceField = (value) => {
   typeSelect.addEventListener('change', () => parseInt(value, 10) >= minPrice[typeSelect.value]);
 };
