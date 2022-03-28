@@ -15,15 +15,6 @@ pristine.addValidator(
   'От 30 до 100 символов'
 );
 
-const nightPrice = orderForm.querySelector('#price');
-
-const validatePrice = (value) => parseInt(value, 10) >= 0 && parseInt(value, 10) <= 100000;
-
-pristine.addValidator(nightPrice,
-  validatePrice,
-  'Мин цена за ночь 0 руб, Макс цена за ночь 100 000 руб'
-);
-
 const numberRooms = orderForm.querySelector('#room_number');
 const numberGuest = orderForm.querySelector('#capacity');
 
@@ -39,7 +30,7 @@ const validateRooms = () => roomsGuest[numberRooms.value].includes(numberGuest.v
 pristine.addValidator(numberRooms,validateRooms, 'количество комнат не соответветствует количеству гостей');
 pristine.addValidator(numberGuest,validateRooms, 'количество комнат не соответветствует количеству гостей');
 
-const priceField = orderForm.querySelector('#price');
+const nightPrice = orderForm.querySelector('#price');
 const typeSelect = orderForm.querySelector('#type');
 
 const minPrice = {
@@ -52,16 +43,16 @@ const minPrice = {
 
 typeSelect.addEventListener('change', (evt) => {
   evt.preventDefault();
-  priceField.placeholder = `${minPrice[typeSelect.value]}`;
+  nightPrice.placeholder = `${minPrice[typeSelect.value]}`;
 });
 
-const validatePriceField = (value) => {
-  typeSelect.addEventListener('change', () => parseInt(value, 10) >= minPrice[typeSelect.value]);
-};
+const validatePriceField = (value) =>  parseInt(value, 10) >= minPrice[typeSelect.value] && parseInt(value, 10) <= 100000;
 
-const getPriceFieldError = () =>`Цена не меньше ${minPrice[typeSelect.value]} руб за ночь`;
-
-pristine.addValidator(priceField, validatePriceField, getPriceFieldError);
+const getPriceError = () => `Мин цена за ночь ${minPrice[typeSelect.value]} руб, Макс цена за ночь 100 000 руб`;
+pristine.addValidator(nightPrice,
+  validatePriceField,
+  getPriceError
+);
 
 orderForm.addEventListener ('submit', (evt) => {
   evt.preventDefault();
@@ -73,4 +64,8 @@ const timeOut = orderForm.querySelector('#timeout');
 
 timeIn.addEventListener('change', ()=> {
   timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
 });
