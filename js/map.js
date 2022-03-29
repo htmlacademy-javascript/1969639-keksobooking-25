@@ -110,6 +110,7 @@ const cardPopup = (offer) => {
     photosAll.append(photoImage);
   });
 
+
   cardElement.querySelector('.popup__avatar').scr = offer.author;
 
   return cardElement;
@@ -129,10 +130,10 @@ const createMarker = (offer) => {
 };
 
 
-const getMarkers = (arr) => arr.forEach((offer) => {createMarker(offer);
-});
+const getMarkers = (arr) => arr.forEach((offer) => createMarker(offer));
+
 
 getMarkers(offers);
 
-export {createMarker, getMarkers, markerGroup};
+export {getMarkers};
 
