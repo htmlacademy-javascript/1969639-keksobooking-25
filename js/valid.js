@@ -99,6 +99,7 @@ const getOpenError = () => {
     }
   });
   openError.querySelector('.error__button').addEventListener('click', () => openError.remove());
+  document.addEventListener('click', () => openError.remove());
 };
 
 const userFormSubmit = (onSuccess) => {
