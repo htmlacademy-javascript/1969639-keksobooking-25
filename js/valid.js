@@ -54,11 +54,6 @@ pristine.addValidator(nightPrice,
   getPriceError
 );
 
-orderForm.addEventListener ('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
 const timeIn = orderForm.querySelector('#timein');
 const timeOut = orderForm.querySelector('#timeout');
 
@@ -69,3 +64,65 @@ timeIn.addEventListener('change', ()=> {
 timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
+
+const openSuccessElement = document.querySelector('#success').content.querySelector('.success');
+const openErrorElement = document.querySelector('#error').content.querySelector('.error');
+const resetButton = orderForm.querySelector('.ad-form__reset');
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  window.location.reload();
+});
+
+const getOpenSuccess = () => {
+  const  openSuccess = openSuccessElement.cloneNode(true);
+  document.body.append(openSuccess);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault(evt);
+      openSuccess.remove();
+    }
+  });
+  document.addEventListener('click', () => {
+    openSuccess.remove();
+    window.location.reload();}
+  );
+};
+
+const getOpenError = () => {
+  const openError = openErrorElement.cloneNode(true);
+  document.body.append(openError);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault(evt);
+      openError.remove();
+    }
+  });
+  openError.querySelector('.error__button').addEventListener('click', () => openError.remove());
+};
+
+const userFormSubmit = (onSuccess) => {
+  orderForm.addEventListener ('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData (evt.target);
+
+      fetch(
+        'https://25.javascript.pages.academy/keksobooking/',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (response.ok) {
+            onSuccess();
+          } else {getOpenError();}
+        })
+        .catch(() => getOpenError());
+    }
+  });
+};
+
+export {userFormSubmit,getOpenSuccess};

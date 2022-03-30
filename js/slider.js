@@ -87,3 +87,16 @@ filterForm.addEventListener('change', (evt)=> {
     });
   }
 });
+
+const getSlider = () => {
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: MIN_RANGE,
+      max: MAX_RANGE,
+    },
+    start: START_FLAT,
+    step: SLIDER_STEP,
+  });
+};
+
+export {getSlider};
