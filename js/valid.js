@@ -1,3 +1,7 @@
+import { sendData } from './api.js';
+import {getMainMarker, clearPupap} from './map.js';
+import {getSlider} from './slider.js';
+
 const orderForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine (orderForm, {
@@ -54,11 +58,6 @@ pristine.addValidator(nightPrice,
   getPriceError
 );
 
-orderForm.addEventListener ('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
 const timeIn = orderForm.querySelector('#timein');
 const timeOut = orderForm.querySelector('#timeout');
 
@@ -69,3 +68,84 @@ timeIn.addEventListener('change', ()=> {
 timeOut.addEventListener('change', () => {
   timeIn.value = timeOut.value;
 });
+
+const openSuccessElement = document.querySelector('#success').content.querySelector('.success');
+const openErrorElement = document.querySelector('#error').content.querySelector('.error');
+const chckboxAll = orderForm.querySelectorAll('[name="feature"]');
+const resetButton = orderForm.querySelector('.ad-form__reset');
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  orderForm.querySelector('#title').value = '';
+  numberRooms.value = '1';
+  numberGuest.value = '3';
+  typeSelect.value = 'flat';
+  nightPrice.value = '';
+  timeIn.value = '12:00';
+  timeOut.value = '12:00';
+  orderForm.querySelector('#address').value = '35.66678, 139.75914';
+  orderForm.querySelector('#description').value = '';
+  chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  getSlider();
+  getMainMarker();
+  clearPupap();
+});
+
+const clearPage = () => {
+  orderForm.querySelector('#title').value = '';
+  numberRooms.value = '1';
+  numberGuest.value = '3';
+  typeSelect.value = 'flat';
+  nightPrice.value = '';
+  timeIn.value = '12:00';
+  timeOut.value = '12:00';
+  orderForm.querySelector('#address').value = '35.66678, 139.75914';
+  orderForm.querySelector('#description').value = '';
+  chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  getSlider();
+  getMainMarker();
+  clearPupap();
+};
+
+const getOpenSuccess = () => {
+  const  openSuccess = openSuccessElement.cloneNode(true);
+  document.body.append(openSuccess);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault(evt);
+      openSuccess.remove();
+    }
+  });
+  document.addEventListener('click', () => openSuccess.remove());
+  clearPage();
+};
+
+const getOpenError = () => {
+  const openError = openErrorElement.cloneNode(true);
+  document.body.append(openError);
+  document.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault(evt);
+      openError.remove();
+    }
+  });
+  openError.querySelector('.error__button').addEventListener('click', () => openError.remove());
+  document.addEventListener('click', () => openError.remove());
+};
+
+const userFormSubmit = (onSuccess) => {
+  orderForm.addEventListener ('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(
+        () => onSuccess(),
+        () => getOpenError(),
+        new FormData (evt.target),
+      );
+    }
+  });
+};
+
+
+export {userFormSubmit,getOpenSuccess};

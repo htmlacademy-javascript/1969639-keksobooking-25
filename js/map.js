@@ -1,13 +1,12 @@
 import {closePage, openPage} from './open-close.js';
-import {offers} from './data.js';
 
 const adressForm = document.querySelector('#address');
 const MAIN_ICON_SIZE = 52;
 const MAIN_ICON_ANCHOR_SIZE = 26;
 const ICON_SIZE = 40;
 const ICON_ANCHOR_SIZE = 20;
-const LAT_MARKER = 35.6895;
-const LNG_MARKER = 139.692;
+const LAT_MARKER = 35.66678;
+const LNG_MARKER = 139.75914;
 const LAT_MAP_CENTRE= 35.6895;
 const LNG_MAP_CENTRE = 139.692;
 const COMMA_NUMBER = 5;
@@ -46,9 +45,11 @@ const mainMarker = L.marker({
 
 mainMarker.addTo(map);
 
+adressForm.value = `${LAT_MARKER}, ${LNG_MARKER}`;
+
 mainMarker.on('moveend', (evt) =>{
   const endMove = evt.target.getLatLng();
-  adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)},${endMove.lng.toFixed(COMMA_NUMBER)}`;
+  adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)}, ${endMove.lng.toFixed(COMMA_NUMBER)}`;
 });
 
 const pinIcon = L.marker({
@@ -74,65 +75,71 @@ const getType = (type) => {
   }
 };
 
-const cardPopup = (offer) => {
+const cardPopup = (element) => {
   const cardElement = similarCardTemplate.cloneNode(true);
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = `${offer.address.lat}, ${offer.address.lng}`;
-  cardElement.querySelector('.popup__text--price').textContent = `${offer.price}Р/ночь`;
-  cardElement.querySelector('.popup__type').textContent = getType(offer.type);
-  cardElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  cardElement.querySelector('.popup__avatar').scr = `${element.author.avatar}`;
+
+  cardElement.querySelector('.popup__title').textContent = element.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = `${element.offer.address}, ${element.location.lat.toFixed(5)}, ${element.location.lng.toFixed(5)}`;
+  cardElement.querySelector('.popup__text--price').textContent = `${element.offer.price}Р/ночь`;
+  cardElement.querySelector('.popup__type').textContent = getType(element.offer.type);
+  cardElement.querySelector('.popup__text--capacity').textContent = `${element.offer.rooms} комнаты для ${element.offer.guests} гостей`;
+  cardElement.querySelector('.popup__text--time').textContent = `Заезд после ${element.offer.checkin}, выезд до ${element.offer.checkout}`;
 
   const featuresAll = cardElement.querySelector('.popup__features');
   const featuresFragment = document.createDocumentFragment();
 
-  offer.features.forEach((feature) => {
-    const featurListItem = featuresAll.querySelector(`.popup__feature--${feature}`);
+  if (element.offer.features) {
+    element.offer.features.forEach((feature) => {
+      const featurListItem = featuresAll.querySelector(`.popup__feature--${feature}`);
 
-    if (featurListItem) {
-      featuresFragment.append(featurListItem);
-    }
-  });
-
+      if (featurListItem) {
+        featuresFragment.append(featurListItem);
+      }
+    });
+  }
   featuresAll.innerHTML = '';
   featuresAll.append(featuresFragment);
 
-  cardElement.querySelector('.popup__description').textContent = offer.description;
+  cardElement.querySelector('.popup__description').textContent = element.offer.description;
   const photosAll = cardElement.querySelector('.popup__photos');
   photosAll.innerHTML = '';
 
-  offer.photos.forEach((photoItem) => {
-    const photoImage = document.createElement('img');
-    photoImage.classList.add('.popup__photo');
-    photoImage.src = photoItem;
-    photoImage.width = `${PHOTO_WIDTH}`;
-    photoImage.height = `${PHOTO_HEIGHT}`;
-    photosAll.append(photoImage);
-  });
-
-  cardElement.querySelector('.popup__avatar').scr = offer.author;
-
+  if (element.offer.photos) {
+    element.offer.photos.forEach((photoItem) => {
+      const photoImage = document.createElement('img');
+      photoImage.classList.add('.popup__photo');
+      photoImage.src = photoItem;
+      photoImage.width = `${PHOTO_WIDTH}`;
+      photoImage.height = `${PHOTO_HEIGHT}`;
+      photosAll.append(photoImage);
+    });
+  }
   return cardElement;
 
 };
 
 const markerGroup = L.layerGroup().addTo(map);
 
-const createMarker = (offer) => {
-  const {lat,lng} = offer.address;
+const createMarker = (element) => {
+  const {lat,lng} = element.location;
   const marker = L.marker ({
     lat,
     lng,
   }, {
     pinIcon},);
-  marker.addTo(markerGroup).bindPopup(cardPopup(offer));
+  marker.addTo(markerGroup).bindPopup(cardPopup(element));
 };
 
 
-const getMarkers = (arr) => arr.forEach((offer) => {createMarker(offer);
+const getMarkers = (arr) => arr.forEach((element) => createMarker(element));
+
+const getMainMarker = () => mainMarker.setLatLng({
+  lat: LAT_MARKER,
+  lng: LNG_MARKER,
 });
 
-getMarkers(offers);
+const clearPupap = () => map.closePopup();
 
-export {createMarker, getMarkers, markerGroup};
+export {getMarkers, getMainMarker, clearPupap};
 

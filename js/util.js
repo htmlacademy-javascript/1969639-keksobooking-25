@@ -11,4 +11,5 @@ function getRandomPositiveFloat (a, b, digits = 5) {
   const result = Math.random() * (upper - lower) + lower;
   return +result.toFixed(digits);
 }
+
 export {getRandomPositiveInteger, getRandomPositiveFloat};
