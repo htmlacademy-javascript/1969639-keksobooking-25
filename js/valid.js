@@ -83,7 +83,7 @@ resetButton.addEventListener('click', (evt) => {
   nightPrice.value = '';
   timeIn.value = '12:00';
   timeOut.value = '12:00';
-  orderForm.querySelector('#address').value = '';
+  orderForm.querySelector('#address').value = '35.66678,139.75914';
   orderForm.querySelector('#description').value = '';
   chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
   getSlider();
@@ -99,7 +99,7 @@ const clearPage = () => {
   nightPrice.value = '';
   timeIn.value = '12:00';
   timeOut.value = '12:00';
-  orderForm.querySelector('#address').value = '';
+  orderForm.querySelector('#address').value = '35.66678,139.75914';
   orderForm.querySelector('#description').value = '';
   chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
   getSlider();
