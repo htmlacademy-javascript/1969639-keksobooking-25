@@ -47,7 +47,7 @@ mainMarker.addTo(map);
 
 mainMarker.on('moveend', (evt) =>{
   const endMove = evt.target.getLatLng();
-  adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)},${endMove.lng.toFixed(COMMA_NUMBER)}`;
+  adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)}, ${endMove.lng.toFixed(COMMA_NUMBER)}`;
 });
 
 const pinIcon = L.marker({
