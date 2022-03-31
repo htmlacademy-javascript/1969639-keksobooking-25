@@ -45,6 +45,8 @@ const mainMarker = L.marker({
 
 mainMarker.addTo(map);
 
+adressForm.value = `${LAT_MARKER}, ${LNG_MARKER}`;
+
 mainMarker.on('moveend', (evt) =>{
   const endMove = evt.target.getLatLng();
   adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)}, ${endMove.lng.toFixed(COMMA_NUMBER)}`;
