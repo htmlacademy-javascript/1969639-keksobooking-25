@@ -137,12 +137,7 @@ const getMainMarker = () => mainMarker.setLatLng({
   lng: LNG_MARKER,
 });
 
-const closePopap = (markerPopups) => {
-  markerPopups.forEach((markerPopup) => {
-    markerPopup.closePopup();
-  });
-};
+const clearPupap = () => map.closePopup();
 
-
-export {getMarkers, getMainMarker, closePopap};
+export {getMarkers, getMainMarker, clearPupap};
 

@@ -1,3 +1,7 @@
+import { sendData } from './api.js';
+import {getMainMarker, clearPupap} from './map.js';
+import {getSlider} from './slider.js';
+
 const orderForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine (orderForm, {
@@ -67,12 +71,41 @@ timeOut.addEventListener('change', () => {
 
 const openSuccessElement = document.querySelector('#success').content.querySelector('.success');
 const openErrorElement = document.querySelector('#error').content.querySelector('.error');
+const chckboxAll = orderForm.querySelectorAll('[name="feature"]');
 const resetButton = orderForm.querySelector('.ad-form__reset');
 
 resetButton.addEventListener('click', (evt) => {
   evt.preventDefault();
-  window.location.reload();
+  orderForm.querySelector('#title').value = '';
+  numberRooms.value = '1';
+  numberGuest.value = '3';
+  typeSelect.value = 'flat';
+  nightPrice.value = '';
+  timeIn.value = '12:00';
+  timeOut.value = '12:00';
+  orderForm.querySelector('#address').value = '';
+  orderForm.querySelector('#description').value = '';
+  chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  getSlider();
+  getMainMarker();
+  clearPupap();
 });
+
+const clearPage = () => {
+  orderForm.querySelector('#title').value = '';
+  numberRooms.value = '1';
+  numberGuest.value = '3';
+  typeSelect.value = 'flat';
+  nightPrice.value = '';
+  timeIn.value = '12:00';
+  timeOut.value = '12:00';
+  orderForm.querySelector('#address').value = '';
+  orderForm.querySelector('#description').value = '';
+  chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  getSlider();
+  getMainMarker();
+  clearPupap();
+};
 
 const getOpenSuccess = () => {
   const  openSuccess = openSuccessElement.cloneNode(true);
@@ -83,10 +116,8 @@ const getOpenSuccess = () => {
       openSuccess.remove();
     }
   });
-  document.addEventListener('click', () => {
-    openSuccess.remove();
-    window.location.reload();}
-  );
+  document.addEventListener('click', () => openSuccess.remove());
+  clearPage();
 };
 
 const getOpenError = () => {
@@ -107,23 +138,14 @@ const userFormSubmit = (onSuccess) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {
-      const formData = new FormData (evt.target);
-
-      fetch(
-        'https://25.javascript.pages.academy/keksobooking/',
-        {
-          method: 'POST',
-          body: formData,
-        },
-      )
-        .then((response) => {
-          if (response.ok) {
-            onSuccess();
-          } else {getOpenError();}
-        })
-        .catch(() => getOpenError());
+      sendData(
+        () => onSuccess(),
+        () => getOpenError(),
+        new FormData (evt.target),
+      );
     }
   });
 };
+
 
 export {userFormSubmit,getOpenSuccess};
