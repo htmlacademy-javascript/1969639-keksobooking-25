@@ -131,8 +131,123 @@ const createMarker = (element) => {
   marker.addTo(markerGroup).bindPopup(cardPopup(element));
 };
 
+const formMapFilter = document.querySelector('.map__filters');
 
-const getMarkers = (arr) => arr.forEach((element) => createMarker(element));
+const SIMILAR_CARD_COUNT = 10;
+
+/*const getMarkers = (arr) => {
+  arr.slice(0, SIMILAR_CARD_COUNT).forEach((elem) => createMarker(elem));
+  const housing = document.querySelector('#housing-type');
+  formMapFilter.addEventListener ('change', () => {
+    markerGroup.clearLayers();
+    arr
+      .filter ((ar) => {
+        switch (housing.value) {
+          case 'bungalow':
+            return ar.offer.type === 'bungalow';
+          case 'flat':
+            return ar.offer.type ==='flat';
+          case 'hotel':
+            return ar.offer.type === 'hotel';
+          case 'house':
+            return ar.offer.type === 'house';
+          case 'palace':
+            return ar.offer.type === 'palace';
+          case 'any':
+            return ar;
+        }
+      })
+      .slice(0, SIMILAR_CARD_COUNT)
+      .forEach((element) => {
+        createMarker(element);
+      });
+  });
+};
+*/
+const getMarkers = (arr) => arr.slice(0, SIMILAR_CARD_COUNT).forEach((elem) => createMarker(elem));
+
+const chengeFilter = (arr) => {
+  const housing = document.querySelector('#housing-type');
+  const housPrice = document.querySelector('#housing-price');
+  const housRooms = document.querySelector('#housing-rooms');
+  const housGuest = document.querySelector('#housing-guests');
+  const housFeatureField = document.querySelector('#housing-features');
+  const housFeaturesAll = housFeatureField.querySelectorAll('.map__checkbox');
+  formMapFilter.addEventListener ('change', () => {
+    markerGroup.clearLayers();
+    arr
+      .filter ((ar) => {
+        switch (housing.value) {
+          case 'bungalow':
+            return ar.offer.type === 'bungalow';
+          case 'flat':
+            return ar.offer.type ==='flat';
+          case 'hotel':
+            return ar.offer.type === 'hotel';
+          case 'house':
+            return ar.offer.type === 'house';
+          case 'palace':
+            return ar.offer.type === 'palace';
+          case 'any':
+            return ar;
+        }
+      })
+      .filter((ar) => {
+        switch (housPrice.value) {
+          case 'middle':
+            return (ar.offer.price >= 10000 && ar.offer.price <= 50000);
+          case 'low':
+            return ar.offer.price <= 10000;
+          case 'high':
+            return ar.offer.price >= 50000;
+          case 'any':
+            return ar;
+        }
+      })
+      .filter((ar) => {
+        switch(housRooms.value) {
+          case '1':
+            return ar.offer.rooms === 1;
+          case '2':
+            return ar.offer.rooms === 2;
+          case '3':
+            return ar.offer.rooms === 3;
+          case 'any':
+            return ar;
+        }
+      })
+      .filter((ar) => {
+        switch(housGuest.value) {
+          case '0':
+            return ar.offer.guests === 0;
+          case '1':
+            return ar.offer.guests === 1;
+          case '2':
+            return ar.offer.guests === 2;
+          case 'any':
+            return ar;
+        }
+      })
+      .filter((ar) => {
+        if (ar.offer.features) {
+          const newArray = [];
+          housFeaturesAll.forEach((housFeatures) => {
+            if (housFeatures.checked) {
+              newArray.push(housFeatures.value);
+            }
+          });
+          if (JSON.stringify(ar.offer.features) === JSON.stringify(newArray)) {
+            return ar.offer.features;
+          }
+        } else if (housFeaturesAll.forEach((housFeatures) =>
+          housFeatures.checked === false)) {return ar;}
+      })
+      .slice(0, SIMILAR_CARD_COUNT)
+      .forEach((element) => {
+        createMarker(element);
+      });
+  });
+};
 
 const getMainMarker = () => mainMarker.setLatLng({
   lat: LAT_MARKER,
@@ -141,5 +256,4 @@ const getMainMarker = () => mainMarker.setLatLng({
 
 const clearPupap = () => map.closePopup();
 
-export {getMarkers, getMainMarker, clearPupap};
-
+export {getMarkers, getMainMarker, clearPupap, chengeFilter};
