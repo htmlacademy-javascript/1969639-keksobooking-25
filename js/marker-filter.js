@@ -1,6 +1,4 @@
-/*
-import {offers} from './data.js';
-import {markers,createMarker, markerGroup} from './map.js';
+import {getMarkers, markerGroup} from './map.js';
 
 const formMapFilter = document.querySelector('.map__filters');
 const housing = document.querySelector('#housing-type');
@@ -10,47 +8,55 @@ const housGuest = document.querySelector('#housing-guests');
 const housFeatureField = document.querySelector('#housing-features');
 const housFeaturesAll = housFeatureField.querySelectorAll('input');
 
-/*
-formMapFilter.addEventListener('change', () =>{
-  markerGroup.clearLayers();
-  offers.filter((offer) => {
-    housFeaturesAll.forEach((housFeatures) => {
-      if (offer.features.includes(housFeatures.value) && housFeatures.checked) {
-        createMarker(offer);
-      }
-    });
-  });
-});
-*/
-/*
-formMapFilter.addEventListener('change', () =>{
-  markerGroup.clearLayers();
-  offers.filter((offer) => {
-    if (housing.value === offer.type && housRooms.value === `${offer.rooms}` && housGuest.value === `${offer.guests}` && housPrice.value === 'low' && offer.price <10000) {
-      housFeaturesAll.forEach((housFeatures) => {
-        if (offer.features.includes(housFeatures.value) && housFeatures.checked) {
-          createMarker(offer);
-        }
-      });
-    } else if ()
-      //createMarker(offer);
-    } else if (housing.value === 'any' && housRooms.value === 'any' && housGuest.value === 'any' && housPrice.value === 'any'){
-      createMarker(offer);
+const filterType = (element) => housing.value === 'any' || housing.value === element.offer.type;
+
+const filterPrice = (element) => {
+  switch (housPrice.value) {
+    case 'middle':
+      return (element.offer.price >= 10000 && element.offer.price <= 50000);
+    case 'low':
+      return element.offer.price <= 10000;
+    case 'high':
+      return element.offer.price >= 50000;
+    case 'any':
+      return true;
+  }
+};
+
+const filterRooms = (element) => housRooms.value === 'any' || +housRooms.value === element.offer.rooms;
+
+const filterGuests = (element) => housGuest.value === 'any' || +housGuest.value === element.offer.guests;
+
+const filterFeatures = (element) => {
+  let condition = true;
+  for (let i =0; i < housFeaturesAll.length; i++) {
+    if (!housFeaturesAll[i].checked) {
+      continue;
     }
+    if (element.offer.features && !element.offer.features.includes(housFeaturesAll[i].value) || !element.offer.features) {
+      condition = false;
+    }
+  }
+  return condition;
+};
+
+const RERENDER_DELAY = 500;
+
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const chengeFilter = (cardElments) => {
+  formMapFilter.addEventListener ('change', () => {
+    markerGroup.clearLayers();
+    const newCardErray = cardElments
+      .filter ((cardElement) => filterType(cardElement) && filterPrice(cardElement) && filterRooms(cardElement) && filterGuests(cardElement) && filterFeatures(cardElement));
+    debounce(getMarkers(newCardErray), RERENDER_DELAY);
   });
-});
+};
 
-
-/*
-
-  housPrice.addEventListener('change', (evt) =>{
-    if (evt.target.value === 'middle' && offer.price >=10000 && offer.price <= 50000) {
-      markerGroup.clearLayers();
-      createMarker(offer);} else if (evt.target.value === 'low' && offer.price < 10000) {markerGroup.clearLayers();
-      createMarker(offer);} else if (evt.target.value === 'high' && offer.price >= 50000) {markerGroup.clearLayers();
-      createMarker(offer);}
-    else if (evt.target.value === 'any') {
-      markers();}
-  });
-});*/
-
+export {chengeFilter};

@@ -1,5 +1,5 @@
 import { sendData } from './api.js';
-import {getMainMarker, clearPupap} from './map.js';
+import {getMainMarker, clearPopup} from './map.js';
 import {getSlider} from './slider.js';
 
 const orderForm = document.querySelector('.ad-form');
@@ -88,7 +88,7 @@ resetButton.addEventListener('click', (evt) => {
   chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
   getSlider();
   getMainMarker();
-  clearPupap();
+  clearPopup();
 });
 
 const clearPage = () => {
@@ -104,7 +104,7 @@ const clearPage = () => {
   chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
   getSlider();
   getMainMarker();
-  clearPupap();
+  clearPopup();
 };
 
 const getOpenSuccess = () => {
