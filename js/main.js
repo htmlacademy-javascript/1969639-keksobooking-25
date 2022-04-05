@@ -5,12 +5,11 @@ import './slider.js';
 import {getMarkers} from './map.js';
 import {userFormSubmit, getOpenSuccess} from './valid.js';
 import {getData} from './api.js';
-
-
-const SIMILAR_CARD_COUNT = 10;
+import {changeFilter} from './marker-filter.js';
 
 getData((cardOffer) => {
-  getMarkers(cardOffer.slice(0,SIMILAR_CARD_COUNT));
+  getMarkers(cardOffer);
+  changeFilter(cardOffer);
 });
 
 userFormSubmit(getOpenSuccess);
