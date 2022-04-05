@@ -5,11 +5,11 @@ import './slider.js';
 import {getMarkers} from './map.js';
 import {userFormSubmit, getOpenSuccess} from './valid.js';
 import {getData} from './api.js';
-import {chengeFilter} from './marker-filter.js';
+import {changeFilter} from './marker-filter.js';
 
 getData((cardOffer) => {
   getMarkers(cardOffer);
-  chengeFilter(cardOffer);
+  changeFilter(cardOffer);
 });
 
 userFormSubmit(getOpenSuccess);

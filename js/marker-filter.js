@@ -8,16 +8,20 @@ const housGuest = document.querySelector('#housing-guests');
 const housFeatureField = document.querySelector('#housing-features');
 const housFeaturesAll = housFeatureField.querySelectorAll('input');
 
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
+const RERENDER_DELAY = 500;
+
 const filterType = (element) => housing.value === 'any' || housing.value === element.offer.type;
 
 const filterPrice = (element) => {
   switch (housPrice.value) {
     case 'middle':
-      return (element.offer.price >= 10000 && element.offer.price <= 50000);
+      return (element.offer.price >= MIN_PRICE && element.offer.price <= MAX_PRICE);
     case 'low':
-      return element.offer.price <= 10000;
+      return element.offer.price <= MIN_PRICE;
     case 'high':
-      return element.offer.price >= 50000;
+      return element.offer.price >= MAX_PRICE;
     case 'any':
       return true;
   }
@@ -40,8 +44,6 @@ const filterFeatures = (element) => {
   return condition;
 };
 
-const RERENDER_DELAY = 500;
-
 const debounce = (callback, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
@@ -50,13 +52,13 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-const chengeFilter = (cardElments) => {
-  formMapFilter.addEventListener ('change', () => {
+const changeFilter = (cardElments) => {
+  formMapFilter.addEventListener ('change', debounce(() => {
     markerGroup.clearLayers();
     const newCardErray = cardElments
       .filter ((cardElement) => filterType(cardElement) && filterPrice(cardElement) && filterRooms(cardElement) && filterGuests(cardElement) && filterFeatures(cardElement));
-    debounce(getMarkers(newCardErray), RERENDER_DELAY);
-  });
+    getMarkers(newCardErray);
+  }, RERENDER_DELAY));
 };
 
-export {chengeFilter};
+export {changeFilter};

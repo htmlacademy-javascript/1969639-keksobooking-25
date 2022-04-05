@@ -71,7 +71,7 @@ timeOut.addEventListener('change', () => {
 
 const openSuccessElement = document.querySelector('#success').content.querySelector('.success');
 const openErrorElement = document.querySelector('#error').content.querySelector('.error');
-const chckboxAll = orderForm.querySelectorAll('[name="feature"]');
+const checkboxAll = orderForm.querySelectorAll('[name="feature"]');
 const resetButton = orderForm.querySelector('.ad-form__reset');
 
 resetButton.addEventListener('click', (evt) => {
@@ -85,7 +85,7 @@ resetButton.addEventListener('click', (evt) => {
   timeOut.value = '12:00';
   orderForm.querySelector('#address').value = '35.66678, 139.75914';
   orderForm.querySelector('#description').value = '';
-  chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  checkboxAll.forEach((checkbox) => {checkbox.checked = false;});
   getSlider();
   getMainMarker();
   clearPopup();
@@ -101,7 +101,7 @@ const clearPage = () => {
   timeOut.value = '12:00';
   orderForm.querySelector('#address').value = '35.66678, 139.75914';
   orderForm.querySelector('#description').value = '';
-  chckboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  checkboxAll.forEach((checkbox) => {checkbox.checked = false;});
   getSlider();
   getMainMarker();
   clearPopup();

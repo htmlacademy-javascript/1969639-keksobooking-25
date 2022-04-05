@@ -13,6 +13,7 @@ const COMMA_NUMBER = 5;
 const PHOTO_WIDTH = 45;
 const PHOTO_HEIGHT = 40;
 const ZOOM = 10;
+const SIMILAR_CARD_COUNT = 10;
 
 closePage();
 
@@ -130,8 +131,6 @@ const createMarker = (element) => {
     pinIcon},);
   marker.addTo(markerGroup).bindPopup(cardPopup(element));
 };
-
-const SIMILAR_CARD_COUNT = 10;
 
 const getMarkers = (arr) => arr.slice(0, SIMILAR_CARD_COUNT).forEach((elem) => createMarker(elem));
 
