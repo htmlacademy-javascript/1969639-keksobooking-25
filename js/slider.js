@@ -1,7 +1,3 @@
-const sliderElement = document.querySelector('.ad-form__slider');
-const valueElement = document.querySelector('#price');
-const filterForm= document.querySelector('#type');
-
 const MIN_RANGE= 0;
 const MAX_RANGE = 100000;
 const COMMA_PRICE = 0;
@@ -12,6 +8,10 @@ const START_FLAT = 1000;
 const START_HOTEL = 3000;
 const START_HOUSE = 5000;
 const START_PALACE = 10000;
+
+const sliderElement = document.querySelector('.ad-form__slider');
+const valueElement = document.querySelector('#price');
+const filterForm= document.querySelector('#type');
 
 noUiSlider.create(sliderElement, {
   range: {

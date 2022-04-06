@@ -1,6 +1,5 @@
 import {closePage, openPage} from './open-close.js';
 
-const adressForm = document.querySelector('#address');
 const MAIN_ICON_SIZE = 52;
 const MAIN_ICON_ANCHOR_SIZE = 26;
 const ICON_SIZE = 40;
@@ -14,6 +13,8 @@ const PHOTO_WIDTH = 45;
 const PHOTO_HEIGHT = 40;
 const ZOOM = 10;
 const SIMILAR_CARD_COUNT = 10;
+
+const adressForm = document.querySelector('#address');
 
 closePage();
 
