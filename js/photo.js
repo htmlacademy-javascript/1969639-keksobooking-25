@@ -1,3 +1,5 @@
+const PHOTO_WIDTH_START = 40;
+const PHOTO_HEIGHT_START = 44;
 const PHOTO_WIDTH = 70;
 const PHOTO_HEIGHT = 70;
 const avatarChooser = document.querySelector('.ad-form__field input[type="file"]');
@@ -24,3 +26,15 @@ houseChooser.addEventListener('change', () => {
   photoElement.height = `${PHOTO_HEIGHT}`;
   houseBox.append(photoElement);
 });
+
+const clearPhoto = () => {
+  houseBox.innerHTML = '';
+  avatarBox.innerHTML = '';
+  const avatarPhoto = document.createElement('img');
+  avatarPhoto.src = 'img/muffin-grey.svg';
+  avatarPhoto.width = `${PHOTO_WIDTH_START}`;
+  avatarPhoto.height = `${PHOTO_HEIGHT_START}`;
+  avatarBox.append(avatarPhoto);
+};
+
+export {clearPhoto};

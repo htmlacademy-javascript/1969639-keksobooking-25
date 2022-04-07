@@ -1,6 +1,7 @@
 import { sendData } from './api.js';
 import {getMainMarker, clearPopup} from './map.js';
 import {getSlider} from './slider.js';
+import {clearPhoto} from './photo.js';
 
 const orderForm = document.querySelector('.ad-form');
 
@@ -89,6 +90,7 @@ resetButton.addEventListener('click', (evt) => {
   getSlider();
   getMainMarker();
   clearPopup();
+  clearPhoto();
 });
 
 const clearPage = () => {
@@ -105,6 +107,7 @@ const clearPage = () => {
   getSlider();
   getMainMarker();
   clearPopup();
+  clearPhoto();
 };
 
 const getOpenSuccess = () => {
