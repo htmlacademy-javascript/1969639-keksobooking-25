@@ -15,6 +15,22 @@ const ZOOM = 10;
 const SIMILAR_CARD_COUNT = 10;
 
 const adressForm = document.querySelector('#address');
+const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
+
+const getType = (type) => {
+  switch (type) {
+    case 'flat':
+      return 'Квартира';
+    case 'bungalow':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    case 'palace':
+      return 'Дворец';
+    case 'hotel' :
+      return 'Отель';
+  }
+};
 
 closePage();
 
@@ -59,23 +75,6 @@ const pinIcon = L.marker({
   iconSize:[ICON_SIZE,ICON_SIZE],
   iconAnchor:[ICON_ANCHOR_SIZE,ICON_SIZE],
 });
-
-const similarCardTemplate = document.querySelector('#card').content.querySelector('.popup');
-
-const getType = (type) => {
-  switch (type) {
-    case 'flat':
-      return 'Квартира';
-    case 'bungalow':
-      return 'Бунгало';
-    case 'house':
-      return 'Дом';
-    case 'palace':
-      return 'Дворец';
-    case 'hotel' :
-      return 'Отель';
-  }
-};
 
 const cardPopup = (element) => {
   const cardElement = similarCardTemplate.cloneNode(true);

@@ -3,6 +3,29 @@ import {getMainMarker, clearPopup} from './map.js';
 import {getSlider} from './slider.js';
 import {clearPhoto} from './photo.js';
 
+const MIN_SIZE = 30;
+const MAX_SIZE = 100;
+const MIN_PRICE_BUNGALOW = 0;
+const MIN_PRICE_FLAT = 1000;
+const MIN_PRICE_HOTEL = 3000;
+const MIN_PRICE_HOUSE = 5000;
+const MIN_PRICE_PALACE = 10000;
+
+const roomsGuest = {
+  '1':['1'],
+  '2':['1','2'],
+  '3':['1','2','3'],
+  '100':['0']
+};
+
+const minPrice = {
+  'bungalow': MIN_PRICE_BUNGALOW,
+  'flat': MIN_PRICE_FLAT,
+  'hotel': MIN_PRICE_HOTEL,
+  'house': MIN_PRICE_HOUSE,
+  'palace': MIN_PRICE_PALACE
+};
+
 const orderForm = document.querySelector('.ad-form');
 
 const pristine = new Pristine (orderForm, {
@@ -12,7 +35,7 @@ const pristine = new Pristine (orderForm, {
   errorTextClass: 'ad-form__element__error-text'
 }, false);
 
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
+const validateTitle = (value) => value.length >= MIN_SIZE && value.length <= MAX_SIZE;
 
 pristine.addValidator(
   orderForm.querySelector('#title'),
@@ -23,13 +46,6 @@ pristine.addValidator(
 const numberRooms = orderForm.querySelector('#room_number');
 const numberGuest = orderForm.querySelector('#capacity');
 
-const roomsGuest = {
-  '1':['1'],
-  '2':['1','2'],
-  '3':['1','2','3'],
-  '100':['0']
-};
-
 const validateRooms = () => roomsGuest[numberRooms.value].includes(numberGuest.value);
 
 pristine.addValidator(numberRooms,validateRooms, 'количество комнат не соответветствует количеству гостей');
@@ -37,14 +53,6 @@ pristine.addValidator(numberGuest,validateRooms, 'количество комн�
 
 const nightPrice = orderForm.querySelector('#price');
 const typeSelect = orderForm.querySelector('#type');
-
-const minPrice = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000
-};
 
 typeSelect.addEventListener('change', (evt) => {
   evt.preventDefault();
@@ -114,6 +122,7 @@ const getOpenSuccess = () => {
   const  openSuccess = openSuccessElement.cloneNode(true);
   document.body.append(openSuccess);
   document.addEventListener('keydown', (evt) => {
+    evt.preventDefault(evt);
     if (evt.key === 'Escape') {
       evt.preventDefault(evt);
       openSuccess.remove();
@@ -127,6 +136,7 @@ const getOpenError = () => {
   const openError = openErrorElement.cloneNode(true);
   document.body.append(openError);
   document.addEventListener('keydown', (evt) => {
+    evt.preventDefault(evt);
     if (evt.key === 'Escape') {
       evt.preventDefault(evt);
       openError.remove();

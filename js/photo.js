@@ -7,6 +7,7 @@ const avatarBox = document.querySelector('.ad-form-header__preview');
 const houseChooser = document.querySelector('.ad-form__upload input[type="file"]');
 const houseBox = document.querySelector('.ad-form__photo');
 
+
 avatarChooser.addEventListener('change', () => {
   avatarBox.innerHTML = '';
   const fileAvatar = avatarChooser.files[0];
@@ -28,6 +29,8 @@ houseChooser.addEventListener('change', () => {
 });
 
 const clearPhoto = () => {
+  avatarChooser.value = '';
+  houseChooser.value = '';
   houseBox.innerHTML = '';
   avatarBox.innerHTML = '';
   const avatarPhoto = document.createElement('img');
