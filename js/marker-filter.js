@@ -1,5 +1,9 @@
 import {getMarkers, markerGroup} from './map.js';
 
+const MIN_PRICE = 10000;
+const MAX_PRICE = 50000;
+const RERENDER_DELAY = 500;
+
 const formMapFilter = document.querySelector('.map__filters');
 const housing = document.querySelector('#housing-type');
 const housPrice = document.querySelector('#housing-price');
@@ -7,10 +11,6 @@ const housRooms = document.querySelector('#housing-rooms');
 const housGuest = document.querySelector('#housing-guests');
 const housFeatureField = document.querySelector('#housing-features');
 const housFeaturesAll = housFeatureField.querySelectorAll('input');
-
-const MIN_PRICE = 10000;
-const MAX_PRICE = 50000;
-const RERENDER_DELAY = 500;
 
 const filterType = (element) => housing.value === 'any' || housing.value === element.offer.type;
 
