@@ -45,8 +45,8 @@ L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  },
-).addTo(map);
+  },)
+  .addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -65,7 +65,7 @@ mainMarker.addTo(map);
 
 adressForm.value = `${LAT_MARKER}, ${LNG_MARKER}`;
 
-mainMarker.on('moveend', (evt) =>{
+mainMarker.on('moveend', (evt) => {
   const endMove = evt.target.getLatLng();
   adressForm.value = `${endMove.lat.toFixed(COMMA_NUMBER)}, ${endMove.lng.toFixed(COMMA_NUMBER)}`;
 });
@@ -117,7 +117,6 @@ const cardPopup = (element) => {
     });
   }
   return cardElement;
-
 };
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -127,8 +126,9 @@ const createMarker = (element) => {
   const marker = L.marker ({
     lat,
     lng,
-  }, {
-    pinIcon},);
+  },{
+    pinIcon
+  },);
   marker.addTo(markerGroup).bindPopup(cardPopup(element));
 };
 

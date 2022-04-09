@@ -55,9 +55,9 @@ const debounce = (callback, timeoutDelay) => {
 const changeFilter = (cardElments) => {
   formMapFilter.addEventListener ('change', debounce(() => {
     markerGroup.clearLayers();
-    const newCardErray = cardElments
+    const newCardArray = cardElments
       .filter ((cardElement) => filterType(cardElement) && filterPrice(cardElement) && filterRooms(cardElement) && filterGuests(cardElement) && filterFeatures(cardElement));
-    getMarkers(newCardErray);
+    getMarkers(newCardArray);
   }, RERENDER_DELAY));
 };
 
