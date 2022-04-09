@@ -19,7 +19,8 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, ALERT_SHOW_TIME);
+  },
+  ALERT_SHOW_TIME);
 };
 
 
@@ -29,8 +30,7 @@ const getData = (onSuccess) => {
     .then((cardOffer) => {
       onSuccess(cardOffer);
     })
-    .catch(() => showAlert ('Сбой соединения. Перезагрузите страницу')
-    );
+    .catch(() => showAlert ('Сбой соединения. Перезагрузите страницу'));
 };
 
 const sendData = (onSuccess, onFail, body) => {
@@ -39,15 +39,13 @@ const sendData = (onSuccess, onFail, body) => {
     {
       method: 'POST',
       body,
-    },
-  )
+    },)
     .then((response) => {
       if (response.ok) {
         onSuccess();
       } else {
         onFail();
-      }
-    })
+      }})
     .catch(() => {
       onFail();
     });
