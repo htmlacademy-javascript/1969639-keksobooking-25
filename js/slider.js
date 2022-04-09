@@ -22,15 +22,13 @@ noUiSlider.create(sliderElement, {
   step: SLIDER_STEP,
   connect: 'lower',
   format: {
-    to: function (value) {
+    to: (value) => {
       if (Number.isInteger(value)) {
         return value.toFixed(COMMA_PRICE);
       }
       return value.toFixed(COMMA_PRICE);
     },
-    from: function (value) {
-      return parseFloat(value);
-    }
+    from: (value) => parseFloat(value)
   },
 });
 
@@ -39,8 +37,8 @@ sliderElement.noUiSlider.on('update', () => {
 });
 
 
-filterForm.addEventListener('change', (evt)=> {
-  if (evt.target.value==='bungalow') {
+filterForm.addEventListener('change', (evt) => {
+  if (evt.target.value ==='bungalow') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: MIN_RANGE,
@@ -67,7 +65,7 @@ filterForm.addEventListener('change', (evt)=> {
       start: START_HOTEL,
       step: SLIDER_STEP,
     });
-  } else if (evt.target.value ==='house') {
+  } else if (evt.target.value === 'house') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: MIN_RANGE,
@@ -76,7 +74,7 @@ filterForm.addEventListener('change', (evt)=> {
       start: START_HOUSE,
       step: SLIDER_STEP,
     });
-  } else if (evt.target.value ==='palace') {
+  } else if (evt.target.value === 'palace') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: MIN_RANGE,

@@ -1,7 +1,8 @@
-import { sendData } from './api.js';
-import {getMainMarker, clearPopup} from './map.js';
+import {sendData} from './api.js';
+import {getMainMarker, clearPopup, LAT_MARKER, LNG_MARKER} from './map.js';
 import {getSlider} from './slider.js';
 import {clearPhoto} from './photo.js';
+import {clearFilter} from './marker-filter.js';
 
 const MIN_SIZE = 30;
 const MAX_SIZE = 100;
@@ -12,10 +13,10 @@ const MIN_PRICE_HOUSE = 5000;
 const MIN_PRICE_PALACE = 10000;
 
 const roomsGuest = {
-  '1':['1'],
-  '2':['1','2'],
-  '3':['1','2','3'],
-  '100':['0']
+  '1': ['1'],
+  '2': ['1','2'],
+  '3': ['1','2','3'],
+  '100': ['0']
 };
 
 const minPrice = {
@@ -58,7 +59,7 @@ typeSelect.addEventListener('change', (evt) => {
   nightPrice.placeholder = `${minPrice[typeSelect.value]}`;
 });
 
-const validatePriceField = (value) =>  parseInt(value, 10) >= minPrice[typeSelect.value] && parseInt(value, 10) <= 100000;
+const validatePriceField = (value) => parseInt(value, 10) >= minPrice[typeSelect.value] && parseInt(value, 10) <= 100000;
 const getPriceError = () => `Мин цена за ночь ${minPrice[typeSelect.value]} руб, Макс цена за ночь 100 000 руб`;
 pristine.addValidator(nightPrice,
   validatePriceField,
@@ -81,24 +82,6 @@ const openErrorElement = document.querySelector('#error').content.querySelector(
 const checkboxAll = orderForm.querySelectorAll('[name="feature"]');
 const resetButton = orderForm.querySelector('.ad-form__reset');
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  orderForm.querySelector('#title').value = '';
-  numberRooms.value = '1';
-  numberGuest.value = '3';
-  typeSelect.value = 'flat';
-  nightPrice.value = '';
-  timeIn.value = '12:00';
-  timeOut.value = '12:00';
-  orderForm.querySelector('#address').value = '35.66678, 139.75914';
-  orderForm.querySelector('#description').value = '';
-  checkboxAll.forEach((checkbox) => {checkbox.checked = false;});
-  getSlider();
-  getMainMarker();
-  clearPopup();
-  clearPhoto();
-});
-
 const clearPage = () => {
   orderForm.querySelector('#title').value = '';
   numberRooms.value = '1';
@@ -107,41 +90,66 @@ const clearPage = () => {
   nightPrice.value = '';
   timeIn.value = '12:00';
   timeOut.value = '12:00';
-  orderForm.querySelector('#address').value = '35.66678, 139.75914';
+  orderForm.querySelector('#address').value = `${LAT_MARKER}, ${LNG_MARKER}`;
   orderForm.querySelector('#description').value = '';
-  checkboxAll.forEach((checkbox) => {checkbox.checked = false;});
+  checkboxAll.forEach((checkbox) => {
+    checkbox.checked = false;
+  });
   getSlider();
   getMainMarker();
   clearPopup();
   clearPhoto();
+  clearFilter();
 };
 
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  clearPage();
+});
+
 const getOpenSuccess = () => {
-  const  openSuccess = openSuccessElement.cloneNode(true);
+  const openSuccess = openSuccessElement.cloneNode(true);
   document.body.append(openSuccess);
-  document.addEventListener('keydown', (evt) => {
-    evt.preventDefault(evt);
+  const onPopupEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
-      evt.preventDefault(evt);
+      evt.preventDefault();
       openSuccess.remove();
+      document.removeEventListener('keydown', onPopupEscKeydown);
     }
-  });
-  document.addEventListener('click', () => openSuccess.remove());
+  };
+  document.addEventListener('keydown', onPopupEscKeydown);
+  const clickOpenSuccess = () => {
+    openSuccess.remove();
+    document.removeEventListener('click', clickOpenSuccess);
+    document.removeEventListener('keydown', onPopupEscKeydown);
+  };
+  document.addEventListener('click', clickOpenSuccess);
   clearPage();
 };
 
 const getOpenError = () => {
   const openError = openErrorElement.cloneNode(true);
   document.body.append(openError);
-  document.addEventListener('keydown', (evt) => {
-    evt.preventDefault(evt);
+  const closePopupEscKeydown = (evt) => {
     if (evt.key === 'Escape') {
-      evt.preventDefault(evt);
+      evt.preventDefault();
       openError.remove();
+      document.removeEventListener('keydown', closePopupEscKeydown);
     }
-  });
-  openError.querySelector('.error__button').addEventListener('click', () => openError.remove());
-  document.addEventListener('click', () => openError.remove());
+  };
+  document.addEventListener('keydown', closePopupEscKeydown);
+  const clickErrorSuccess = () => {
+    openError.remove();
+    document.removeEventListener('click', clickErrorSuccess);
+    document.removeEventListener('keydown', closePopupEscKeydown);
+  };
+  const buttonErrorSuccess = () => {
+    openError.remove();
+    openError.querySelector('.error__button').removeEventListener('click', buttonErrorSuccess);
+    document.removeEventListener('keydown', closePopupEscKeydown);
+  };
+  openError.querySelector('.error__button').addEventListener('click', buttonErrorSuccess);
+  document.addEventListener('click', clickErrorSuccess);
 };
 
 const userFormSubmit = (onSuccess) => {
@@ -150,8 +158,8 @@ const userFormSubmit = (onSuccess) => {
     const isValid = pristine.validate();
     if (isValid) {
       sendData(
-        () => onSuccess(),
-        () => getOpenError(),
+        onSuccess,
+        getOpenError,
         new FormData (evt.target),
       );
     }

@@ -1,4 +1,5 @@
 import {getMarkers, markerGroup} from './map.js';
+import {debounce} from './util.js';
 
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
@@ -11,6 +12,26 @@ const housRooms = document.querySelector('#housing-rooms');
 const housGuest = document.querySelector('#housing-guests');
 const housFeatureField = document.querySelector('#housing-features');
 const housFeaturesAll = housFeatureField.querySelectorAll('input');
+
+const blockFilter = () => {
+  housing.setAttribute('disabled', true);
+  housPrice.setAttribute('disabled', true);
+  housRooms.setAttribute('disabled', true);
+  housGuest.setAttribute('disabled', true);
+  housFeaturesAll.forEach((housFeatur) => {
+    housFeatur.setAttribute('disabled', true);
+  });
+};
+
+const clearFilter = () => {
+  housing.value = 'any';
+  housPrice.value = 'any';
+  housRooms.value = 'any';
+  housGuest.value = 'any';
+  housFeaturesAll.forEach((housFeatur) => {
+    housFeatur.checked = false;
+  });
+};
 
 const filterType = (element) => housing.value === 'any' || housing.value === element.offer.type;
 
@@ -33,7 +54,7 @@ const filterGuests = (element) => housGuest.value === 'any' || +housGuest.value 
 
 const filterFeatures = (element) => {
   let condition = true;
-  for (let i =0; i < housFeaturesAll.length; i++) {
+  for (let i = 0; i < housFeaturesAll.length; i++) {
     if (!housFeaturesAll[i].checked) {
       continue;
     }
@@ -42,14 +63,6 @@ const filterFeatures = (element) => {
     }
   }
   return condition;
-};
-
-const debounce = (callback, timeoutDelay) => {
-  let timeoutId;
-  return (...rest) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-  };
 };
 
 const changeFilter = (cardElments) => {
@@ -61,4 +74,4 @@ const changeFilter = (cardElments) => {
   }, RERENDER_DELAY));
 };
 
-export {changeFilter};
+export {changeFilter, blockFilter, clearFilter};

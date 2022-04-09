@@ -1,3 +1,5 @@
+import {blockFilter} from './marker-filter.js';
+
 const ALERT_SHOW_TIME = 6000;
 
 const showAlert = (message) => {
@@ -23,14 +25,16 @@ const showAlert = (message) => {
   ALERT_SHOW_TIME);
 };
 
-
 const getData = (onSuccess) => {
   fetch('https://25.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((cardOffer) => {
       onSuccess(cardOffer);
     })
-    .catch(() => showAlert ('Сбой соединения. Перезагрузите страницу'));
+    .catch(() => {
+      showAlert ('Сбой соединения. Перезагрузите страницу');
+      blockFilter();
+    });
 };
 
 const sendData = (onSuccess, onFail, body) => {

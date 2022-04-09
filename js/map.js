@@ -72,14 +72,13 @@ mainMarker.on('moveend', (evt) => {
 
 const pinIcon = L.marker({
   iconUrl: './img/pin.svg',
-  iconSize:[ICON_SIZE,ICON_SIZE],
-  iconAnchor:[ICON_ANCHOR_SIZE,ICON_SIZE],
+  iconSize: [ICON_SIZE,ICON_SIZE],
+  iconAnchor: [ICON_ANCHOR_SIZE,ICON_SIZE],
 });
 
 const cardPopup = (element) => {
   const cardElement = similarCardTemplate.cloneNode(true);
-  cardElement.querySelector('.popup__avatar').scr = `${element.author.avatar}`;
-
+  cardElement.querySelector('.popup__avatar').src = `${element.author.avatar}`;
   cardElement.querySelector('.popup__title').textContent = element.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = `${element.offer.address}, ${element.location.lat.toFixed(5)}, ${element.location.lng.toFixed(5)}`;
   cardElement.querySelector('.popup__text--price').textContent = `${element.offer.price}Р/ночь`;
@@ -141,4 +140,4 @@ const getMainMarker = () => mainMarker.setLatLng({
 
 const clearPopup = () => map.closePopup();
 
-export {getMarkers, getMainMarker, clearPopup, markerGroup};
+export {getMarkers, getMainMarker, clearPopup, markerGroup, LAT_MARKER, LNG_MARKER};
