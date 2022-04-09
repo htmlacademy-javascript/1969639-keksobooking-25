@@ -1,3 +1,4 @@
+import './util.js';
 import './open-close.js';
 import './slider.js';
 import {getMarkers} from './map.js';
