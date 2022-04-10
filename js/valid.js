@@ -1,5 +1,6 @@
 import {sendData} from './api.js';
-import {getMainMarker, clearPopup, LAT_MARKER, LNG_MARKER} from './map.js';
+import {getServer} from './main.js';
+import {getMainMarker, clearPopup, LAT_MARKER, LNG_MARKER, getMarkers, markerGroup} from './map.js';
 import {getSlider} from './slider.js';
 import {clearPhoto} from './photo.js';
 import {clearFilter} from './marker-filter.js';
@@ -100,12 +101,16 @@ const clearPage = () => {
   clearPopup();
   clearPhoto();
   clearFilter();
+  markerGroup.clearLayers();
 };
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  clearPage();
-});
+const getButton = (elements) => {
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    clearPage();
+    getMarkers(elements);
+  });
+};
 
 const getOpenSuccess = () => {
   const openSuccess = openSuccessElement.cloneNode(true);
@@ -125,6 +130,7 @@ const getOpenSuccess = () => {
   };
   document.addEventListener('click', clickOpenSuccess);
   clearPage();
+  getServer();
 };
 
 const getOpenError = () => {
@@ -166,4 +172,4 @@ const userFormSubmit = (onSuccess) => {
   });
 };
 
-export {userFormSubmit,getOpenSuccess};
+export {userFormSubmit, getOpenSuccess, getButton};
