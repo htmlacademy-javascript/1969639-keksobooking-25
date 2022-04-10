@@ -9,9 +9,17 @@ const START_HOTEL = 3000;
 const START_HOUSE = 5000;
 const START_PALACE = 10000;
 
+const housPrices = {
+  'bungalow': START_BUNGALOW,
+  'flat': START_FLAT,
+  'hotel': START_HOTEL,
+  'house': START_HOUSE,
+  'palace': START_PALACE,
+};
+
 const sliderElement = document.querySelector('.ad-form__slider');
 const valueElement = document.querySelector('#price');
-const filterForm= document.querySelector('#type');
+const filterForm = document.querySelector('#type');
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -36,54 +44,15 @@ sliderElement.noUiSlider.on('update', () => {
   valueElement.value = sliderElement.noUiSlider.get();
 });
 
-
 filterForm.addEventListener('change', (evt) => {
-  if (evt.target.value ==='bungalow') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: MIN_RANGE,
-        max: MAX_RANGE,
-      },
-      start: START_BUNGALOW,
-      step: SLIDER_STEP,
-    });
-  } else if (evt.target.value === 'flat') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: MIN_RANGE,
-        max: MAX_RANGE,
-      },
-      start: START_FLAT,
-      step: SLIDER_STEP,
-    });
-  } else if (evt.target.value === 'hotel') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: MIN_RANGE,
-        max: MAX_RANGE,
-      },
-      start: START_HOTEL,
-      step: SLIDER_STEP,
-    });
-  } else if (evt.target.value === 'house') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: MIN_RANGE,
-        max: MAX_RANGE,
-      },
-      start: START_HOUSE,
-      step: SLIDER_STEP,
-    });
-  } else if (evt.target.value === 'palace') {
-    sliderElement.noUiSlider.updateOptions({
-      range: {
-        min: MIN_RANGE,
-        max: MAX_RANGE,
-      },
-      start: START_PALACE,
-      step: SLIDER_STEP,
-    });
-  }
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: MIN_RANGE,
+      max: MAX_RANGE,
+    },
+    start: housPrices[evt.target.value],
+    step: SLIDER_STEP,
+  });
 });
 
 const getSlider = () => {
