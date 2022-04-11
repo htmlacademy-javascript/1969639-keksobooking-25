@@ -123,12 +123,12 @@ const getOpenSuccess = () => {
     }
   };
   document.addEventListener('keydown', onPopupEscKeydown);
-  const clickOpenSuccess = () => {
+  const onSuccessClick = () => {
     openSuccess.remove();
-    document.removeEventListener('click', clickOpenSuccess);
+    document.removeEventListener('click', onSuccessClick);
     document.removeEventListener('keydown', onPopupEscKeydown);
   };
-  document.addEventListener('click', clickOpenSuccess);
+  document.addEventListener('click', onSuccessClick);
   clearPage();
   getServer();
 };
@@ -136,29 +136,29 @@ const getOpenSuccess = () => {
 const getOpenError = () => {
   const openError = openErrorElement.cloneNode(true);
   document.body.append(openError);
-  const closePopupEscKeydown = (evt) => {
+  const onPopupEscKeydownClose = (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       openError.remove();
-      document.removeEventListener('keydown', closePopupEscKeydown);
+      document.removeEventListener('keydown', onPopupEscKeydownClose);
     }
   };
-  document.addEventListener('keydown', closePopupEscKeydown);
-  const clickErrorSuccess = () => {
+  document.addEventListener('keydown', onPopupEscKeydownClose);
+  const onErrorSuccessClick = () => {
     openError.remove();
-    document.removeEventListener('click', clickErrorSuccess);
-    document.removeEventListener('keydown', closePopupEscKeydown);
+    document.removeEventListener('click', onErrorSuccessClick);
+    document.removeEventListener('keydown', onPopupEscKeydownClose);
   };
-  const buttonErrorSuccess = () => {
+  const onButtonError = () => {
     openError.remove();
-    openError.querySelector('.error__button').removeEventListener('click', buttonErrorSuccess);
-    document.removeEventListener('keydown', closePopupEscKeydown);
+    openError.querySelector('.error__button').removeEventListener('click', onButtonError);
+    document.removeEventListener('keydown', onPopupEscKeydownClose);
   };
-  openError.querySelector('.error__button').addEventListener('click', buttonErrorSuccess);
-  document.addEventListener('click', clickErrorSuccess);
+  openError.querySelector('.error__button').addEventListener('click', onButtonError);
+  document.addEventListener('click', onErrorSuccessClick);
 };
 
-const userFormSubmit = (onSuccess) => {
+const sendUserFormSubmit = (onSuccess) => {
   orderForm.addEventListener ('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
@@ -172,4 +172,4 @@ const userFormSubmit = (onSuccess) => {
   });
 };
 
-export {userFormSubmit, getOpenSuccess, getButton};
+export {sendUserFormSubmit, getOpenSuccess, getButton};

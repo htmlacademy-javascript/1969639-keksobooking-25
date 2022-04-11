@@ -3,7 +3,7 @@ import './open-close.js';
 import './slider.js';
 import {getMarkers} from './map.js';
 import './photo.js';
-import {userFormSubmit, getOpenSuccess, getButton} from './valid.js';
+import {sendUserFormSubmit, getOpenSuccess, getButton} from './valid.js';
 import {getData} from './api.js';
 import {changeFilter} from './marker-filter.js';
 
@@ -16,6 +16,6 @@ const getServer = () => {
 };
 
 getServer();
-userFormSubmit(getOpenSuccess);
+sendUserFormSubmit(getOpenSuccess);
 
 export {getServer};

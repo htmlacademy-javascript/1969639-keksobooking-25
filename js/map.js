@@ -76,7 +76,7 @@ const pinIcon = L.marker({
   iconAnchor: [ICON_ANCHOR_SIZE,ICON_SIZE],
 });
 
-const cardPopup = (element) => {
+const getCardPopup = (element) => {
   const cardElement = similarCardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__avatar').src = `${element.author.avatar}`;
   cardElement.querySelector('.popup__title').textContent = element.offer.title;
@@ -128,7 +128,7 @@ const createMarker = (element) => {
   },{
     pinIcon
   },);
-  marker.addTo(markerGroup).bindPopup(cardPopup(element));
+  marker.addTo(markerGroup).bindPopup(getCardPopup(element));
 };
 
 const getMarkers = (arr) => arr.slice(0, SIMILAR_CARD_COUNT).forEach((elem) => createMarker(elem));
